@@ -16,4 +16,4 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
     - run: |
-        Get-AzResourceGroup
+        az group show --name
