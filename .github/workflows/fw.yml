@@ -6,7 +6,7 @@ on:
       environment: 
         required: true
         default: 'Stop'
-        description: Please select the Environment
+        description: Please select the FW action
         type: choice
         options:
         - start
@@ -22,7 +22,7 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
-    - run: |  
+        run: |  
           az group list
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
@@ -30,3 +30,4 @@ jobs:
           if ${{ github.event.inputs.environment }} -eq 'Stop') {
           az group list
                         }  
+        shell: pwsh
