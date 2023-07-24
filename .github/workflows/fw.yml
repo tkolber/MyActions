@@ -29,7 +29,7 @@ jobs:
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
           az network firewall show -n $fwname --resource-group $rgname | ConvertFrom-Json
-          $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
+          # $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
           if ("${{ github.event.inputs.environment }}" -eq 'Stop') {
           write-host "Stop was selected"
                         } 
