@@ -23,7 +23,7 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
         shell: pwsh
-    - run: |  
+        run: |  
           az group list
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
