@@ -37,5 +37,14 @@ jobs:
           write-host "Start was selected"
           az group list
                         } 
+    
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $rgname = "WinImageBuilderRG"
+          $fwname = "fwtest"
+          Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
+        azPSVersion: "latest"
 
           
