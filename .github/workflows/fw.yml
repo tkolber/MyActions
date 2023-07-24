@@ -22,7 +22,6 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
-        shell: pwsh
     - run: |  
           az group list
           $rgname = "WinImageBuilderRG"
