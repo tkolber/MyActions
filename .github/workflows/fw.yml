@@ -27,7 +27,7 @@ jobs:
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
           $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
-          if ${{ github.event.inputs.environment }} -eq 'Stop') {
+          if (${{ github.event.inputs.environment }} -eq 'Stop') {
           az group list
                         } 
       shell: pwsh
