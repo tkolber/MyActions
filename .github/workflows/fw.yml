@@ -12,12 +12,24 @@ parameters:
       - "Stop"
       - "Start"
 
-steps:
-- task: AzurePowerShell@5
-  inputs: 
-      azureSubscription: "DEMOSA"
-      ScriptType: 'InlineScript'
-      Inline: |    
+# File: .github/workflows/workflow.yml
+
+# on: [push]
+on: workflow_dispatch
+
+name: AzurePowerShellLoginSample
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    - run: |  
           $rgname = "we-hub-RG"
           $fwname = "we-hub-fw"
           $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
