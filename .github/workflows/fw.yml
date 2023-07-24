@@ -66,8 +66,8 @@ jobs:
               If ("$null" -eq $fwstat) {
                   Write-Host "##[debug]Starting Azure FireWall, it might take few minutes, please wait...."
                   [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Israel Standard Time')
-                  $vnet = Get-AzVirtualNetwork -ResourceGroupName $rgname -Name "we-hub-vnet"
-                  $publicip1 = Get-AzPublicIpAddress -Name "we-hub-fw-pip" -ResourceGroupName $rgname
+                  $vnet = Get-AzVirtualNetwork -ResourceGroupName $rgname -Name "fwnet"
+                  $publicip1 = Get-AzPublicIpAddress -Name "fwpubip" -ResourceGroupName $rgname
                   $azfw.Allocate($vnet,@($publicip1))
                   Set-AzFirewall -AzureFirewall $azfw
                   $fwstat = (Get-AzFirewall -ResourceGroupName $rgname -Name $fwname).IpConfigurations
