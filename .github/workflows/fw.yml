@@ -18,15 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Login via Az module
-      uses: azure/login@v1
+    - uses: azure/login@v1
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
     - run: |  
           az group list
+    - uses: actions/checkout@v1
+    - name: Script
+      shell: pwsh
+      run: |
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
           $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
           if ${{ github.event.inputs.environment }} -eq 'Stop') {
           az group list
                         } 
+          
