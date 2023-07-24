@@ -1,9 +1,5 @@
-#pool:
-#    vmImage: windows-latest
+name: fwtest
 
-# File: .github/workflows/workflow.yml
-
-# on: [push]
 on: 
   workflow_dispatch:
     inputs: 
