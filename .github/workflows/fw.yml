@@ -22,11 +22,9 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
+        shell: pwsh
     - run: |  
           az group list
-    - name: FWstopstart
-      shell: pwsh
-    - run: |
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
           $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
