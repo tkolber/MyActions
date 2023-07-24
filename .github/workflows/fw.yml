@@ -22,7 +22,8 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
-    - run: |  
+    - run: |
+    - shell: pwsh
           az group list
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
@@ -30,5 +31,5 @@ jobs:
           if (${{ github.event.inputs.environment }} -eq 'Stop') {
           az group list
                         } 
-      shell: pwsh
+
           
