@@ -23,13 +23,13 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
     - run: |
-    - shell: pwsh
           az group list
           $rgname = "WinImageBuilderRG"
           $fwname = "fwtest"
-          $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
+          az network firewall show -n $fwname --resource-group $rgname | ConvertFrom-Json
+          # $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
           if (${{ github.event.inputs.environment }} -eq 'Stop') {
-          az group list
+          write-host "Stop was selected"
                         } 
 
           
