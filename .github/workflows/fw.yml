@@ -4,17 +4,16 @@ on:
   workflow_dispatch:
     inputs: 
       environment: 
-      requiered: true
-      default: 'Stop'
-      description: Please select the Environment
-      type: choice
-      options:
-          – Start
-          – Stop
+        required: true
+        default: 'Stop'
+        description: Please select the Environment
+        type: choice
+        options:
+        - start
+        - stop
 
 
 jobs:
-  Stop:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps: 
@@ -24,10 +23,10 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
     - run: |  
-          $rgname = "we-hub-RG"
-          $fwname = "we-hub-fw"
+          $rgname = "WinImageBuilderRG"
+          $fwname = "fwtest"
           $azfw = Get-AzFirewall -Name $fwname -ResourceGroupName $rgname
-          if ('${{ parameters.FWTaskType }}' -eq 'Stop') {
+          if ${{ github.event.inputs.environment }} -eq 'Stop') {
             $fwstat = (Get-AzFirewall -ResourceGroupName $rgname -Name $fwname).IpConfigurations
             If ($fwstat -ne "$null") {
                 Write-Host "##[debug]Stopping Azure FireWall, it might take few minutes, please wait...."
@@ -39,5 +38,20 @@ jobs:
                 [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Israel Standard Time')
                       }
             Else {Write-Host "##vso[task.logissue type=warning;]Firewall is already in a stopped state"}
+                        
+                             
+            if ${{ github.event.inputs.environment }} -eq 'Start') {
+              $fwstat = (Get-AzFirewall -ResourceGroupName $rgname -Name $fwname).IpConfigurations
+              If ("$null" -eq $fwstat) {
+                  Write-Host "##[debug]Starting Azure FireWall, it might take few minutes, please wait...."
+                  [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Israel Standard Time')
+                  $vnet = Get-AzVirtualNetwork -ResourceGroupName $rgname -Name "we-hub-vnet"
+                  $publicip1 = Get-AzPublicIpAddress -Name "we-hub-fw-pip" -ResourceGroupName $rgname
+                  $azfw.Allocate($vnet,@($publicip1))
+                  Set-AzFirewall -AzureFirewall $azfw
+                  $fwstat = (Get-AzFirewall -ResourceGroupName $rgname -Name $fwname).IpConfigurations
+                  If ($null -ne $fwstat) {Write-Host "##vso[task.logissue type=warning;]Firewall is in a started state"}
+                  [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Israel Standard Time')
                         }
-
+              Else {Write-Host "##vso[task.logissue type=warning;]Firewall is already in a started state"}
+                        }  
