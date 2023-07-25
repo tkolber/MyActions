@@ -1,5 +1,4 @@
 name: fwtest
-
 on: 
   workflow_dispatch:
     inputs: 
@@ -11,7 +10,6 @@ on:
         options:
         - Stop
         - Start
-
 
 jobs:
   build-and-deploy:
