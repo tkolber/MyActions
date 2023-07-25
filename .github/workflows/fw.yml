@@ -9,8 +9,8 @@ on:
         description: Please select the FW action
         type: choice
         options:
-        - stop
-        - start
+        - Stop
+        - Start
 
 
 jobs:
